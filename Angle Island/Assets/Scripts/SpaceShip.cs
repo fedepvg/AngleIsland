@@ -8,8 +8,6 @@ public class SpaceShip : MonoBehaviour
     [SerializeField]
     private float SpeedZ;
     [SerializeField]
-    private float SpeedLimit;
-    [SerializeField]
     private float XRotationRate;
     [SerializeField]
     private float ZRotationRate;
@@ -19,34 +17,44 @@ public class SpaceShip : MonoBehaviour
     Vector3 MoveDir=Vector3.zero;
     void Awake()
     {
-        rigi=GetComponentInParent<Rigidbody>();
-        SpeedZ = 0.1f;
-        SpeedLimit = 50f;
-        XRotationRate = 45f;
-        ZRotationRate = 45f;
+        rigi = GetComponentInParent<Rigidbody>();
+        SpeedZ = 20f;
+        XRotationRate = 70f;
+        ZRotationRate = -70f;
     }
 
     private void FixedUpdate()
     {
-        GetInput(ref MoveInput);
-        Vector3 DesiredMove =transform.forward * InputX + transform.up + transform.right * InputZ;
-        //MoveDir.x = DesiredMove.x * SpeedZ;
-        //MoveDir.z = DesiredMove.z * SpeedZ;
-        if (rigi.velocity.z < SpeedLimit)
-            rigi.AddForce(DesiredMove, ForceMode.Impulse);
-        Debug.Log(rigi.velocity.z);
-        Debug.DrawRay(transform.position, transform.forward);
+        GetInput(ref InputX,ref InputZ);
+        
+
+        rigi.AddRelativeTorque(InputX * XRotationRate * Time.deltaTime, 0f, InputZ * ZRotationRate * Time.deltaTime, ForceMode.Force);
+
+        rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ));
+
+        Debug.Log(rigi.velocity.sqrMagnitude);
+        Debug.DrawRay(transform.position, transform.forward*10);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Rotate(-InputX * XRotationRate * Time.deltaTime, 0f, InputZ * ZRotationRate * Time.deltaTime);
-    }
-
-    void GetInput(ref Vector2 moveInput)
+    void GetInput(ref float InputX,ref float InputZ)
     {
         InputX = Input.GetAxis("Vertical");
         InputZ = Input.GetAxis("Horizontal");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(LayerMask.LayerToName(collision.gameObject.layer)=="Floor")
+        {
+            rigi.useGravity = false;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Floor")
+        {
+            rigi.useGravity = true;
+        }
     }
 }
