@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class SpaceShip : MonoBehaviour
 {
@@ -32,6 +33,11 @@ public class SpaceShip : MonoBehaviour
         DestRot = Quaternion.identity;
     }
 
+    private void Start()
+    {
+        CommandTerminal.Terminal.Shell.AddCommand("rot",Rotate,2,2, "Rotate on an axis 'n' euler angles");
+    }
+
     private void FixedUpdate()
     {        
         rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ),ForceMode.Force);
@@ -42,24 +48,25 @@ public class SpaceShip : MonoBehaviour
 
     private void Update()
     {
-        GetInput(ref InputX, ref InputZ);
-        transform.Rotate(InputX * XRotationRate * Time.deltaTime, 0f, InputZ * ZRotationRate * Time.deltaTime);
-        if(Input.GetKey(KeyCode.X))
-        {
-            Rotate(90, 'x');
-        }
-        else if(Input.GetKey(KeyCode.Y))
-        {
-            Rotate(90, 'y');
-        }
-        else if(Input.GetKey(KeyCode.Z))
-        {
-            Rotate(90, 'z');
-        }
-        else
-        {
-            Rotate();
-        }
+        //GetInput(ref InputX, ref InputZ);
+        //transform.Rotate(InputX * XRotationRate * Time.deltaTime, 0f, InputZ * ZRotationRate * Time.deltaTime);
+        //if(Input.GetKey(KeyCode.X))
+        //{
+        //    Rotate(90, 'x');
+        //}
+        //else if(Input.GetKey(KeyCode.Y))
+        //{
+        //    Rotate(90, 'y');
+        //}
+        //else if(Input.GetKey(KeyCode.Z))
+        //{
+        //    Rotate(90, 'z');
+        //}
+        //else
+        //{
+        //    Rotate();
+        //}
+        Rotate();
     }
 
     void GetInput(ref float InputX,ref float InputZ)
@@ -84,19 +91,24 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
-    public void Rotate(int rot, char axis)
+    public void Rotate(CommandTerminal.CommandArg[] args)
     {
+        char axis = args[0].Char;
+        float rot = args[1].Int;
         //DestRot=Quaternion.identity;
         if (axis != ActualAxis)
         {
             switch (axis)
             {
+                case 'X':
                 case 'x':
                     DestRot *= Quaternion.AngleAxis(rot, transform.right);
                     break;
+                case 'Y':
                 case 'y':
                     DestRot *= Quaternion.AngleAxis(rot, transform.up);
                     break;
+                case 'Z':
                 case 'z':
                     DestRot *= Quaternion.AngleAxis(rot, transform.forward);
                     break;
@@ -105,12 +117,33 @@ public class SpaceShip : MonoBehaviour
         DestRot = DestRot * transform.rotation;
     }
 
+    //public void Rotate(int rot, char axis)
+    //{
+    //    //DestRot=Quaternion.identity;
+    //    if (axis != ActualAxis)
+    //    {
+    //        switch (axis)
+    //        {
+    //            case 'x':
+    //                DestRot *= Quaternion.AngleAxis(rot, transform.right);
+    //                break;
+    //            case 'y':
+    //                DestRot *= Quaternion.AngleAxis(rot, transform.up);
+    //                break;
+    //            case 'z':
+    //                DestRot *= Quaternion.AngleAxis(rot, transform.forward);
+    //                break;
+    //        }
+    //    }
+    //    DestRot = DestRot * transform.rotation;
+    //}
+
     public void Rotate()
     {
         transform.rotation = Quaternion.Lerp(transform.rotation, DestRot, RotSpeed * Time.deltaTime);
-        if (transform.rotation == DestRot)
-        {
-            DestRot = Quaternion.identity;
-        }
+        //if (transform.rotation == DestRot)
+        //{
+        //    DestRot = Quaternion.identity;
+        //}
     }
 }
