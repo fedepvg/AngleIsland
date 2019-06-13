@@ -42,8 +42,8 @@ public class SpaceShip : MonoBehaviour
     {        
         rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ),ForceMode.Force);
 
-        Debug.Log(rigi.velocity.sqrMagnitude);
-        Debug.DrawRay(transform.position, transform.forward*10);
+        //Debug.Log(rigi.velocity.sqrMagnitude);
+        //Debug.DrawRay(transform.position, transform.forward*10);
     }
 
     private void Update()
