@@ -21,13 +21,13 @@ public class SpaceShip : MonoBehaviour
     private InputField InputText;
     public Text BAckgroundText;
     public float RotSpeed;
-    char ActualAxis;
     Quaternion DestRot;
+    Quaternion OriginRotation;
+    float LerpMultiplier;
 
     void Awake()
     {
         rigi = GetComponentInParent<Rigidbody>();
-        SpeedZ = 20f;
         XRotationRate = 70f;
         ZRotationRate = -70f;
         DestRot = Quaternion.identity;
@@ -35,37 +35,16 @@ public class SpaceShip : MonoBehaviour
 
     private void Start()
     {
-        CommandTerminal.Terminal.Shell.AddCommand("rot",Rotate,2,2, "Rotate on an axis 'n' euler angles");
+        CommandTerminal.Terminal.Shell.AddCommand("rot", Rotate, 2, 2, "Rotate on an axis 'n' euler angles");
     }
 
     private void FixedUpdate()
     {        
-        rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ),ForceMode.Force);
-
-        //Debug.Log(rigi.velocity.sqrMagnitude);
-        //Debug.DrawRay(transform.position, transform.forward*10);
+        rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ), ForceMode.Force);
     }
 
     private void Update()
     {
-        //GetInput(ref InputX, ref InputZ);
-        //transform.Rotate(InputX * XRotationRate * Time.deltaTime, 0f, InputZ * ZRotationRate * Time.deltaTime);
-        //if(Input.GetKey(KeyCode.X))
-        //{
-        //    Rotate(90, 'x');
-        //}
-        //else if(Input.GetKey(KeyCode.Y))
-        //{
-        //    Rotate(90, 'y');
-        //}
-        //else if(Input.GetKey(KeyCode.Z))
-        //{
-        //    Rotate(90, 'z');
-        //}
-        //else
-        //{
-        //    Rotate();
-        //}
         Rotate();
     }
 
@@ -96,51 +75,36 @@ public class SpaceShip : MonoBehaviour
         char axis = args[0].Char;
         float rot = args[1].Int;
         //DestRot=Quaternion.identity;
-        if (axis != ActualAxis)
-        {
-            switch (axis)
-            {
-                case 'X':
-                case 'x':
-                    DestRot *= Quaternion.AngleAxis(rot, transform.right);
-                    break;
-                case 'Y':
-                case 'y':
-                    DestRot *= Quaternion.AngleAxis(rot, transform.up);
-                    break;
-                case 'Z':
-                case 'z':
-                    DestRot *= Quaternion.AngleAxis(rot, transform.forward);
-                    break;
-            }
-        }
-        DestRot = DestRot * transform.rotation;
-    }
 
-    //public void Rotate(int rot, char axis)
-    //{
-    //    //DestRot=Quaternion.identity;
-    //    if (axis != ActualAxis)
-    //    {
-    //        switch (axis)
-    //        {
-    //            case 'x':
-    //                DestRot *= Quaternion.AngleAxis(rot, transform.right);
-    //                break;
-    //            case 'y':
-    //                DestRot *= Quaternion.AngleAxis(rot, transform.up);
-    //                break;
-    //            case 'z':
-    //                DestRot *= Quaternion.AngleAxis(rot, transform.forward);
-    //                break;
-    //        }
-    //    }
-    //    DestRot = DestRot * transform.rotation;
-    //}
+        switch (axis)
+        {
+            case 'X':
+            case 'x':
+                DestRot *= Quaternion.AngleAxis(rot, -transform.right);
+                break;
+            case 'Y':
+            case 'y':
+                DestRot *= Quaternion.AngleAxis(rot, transform.up);
+                break;
+            case 'Z':
+            case 'z':
+                DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
+                break;
+        }
+
+        LerpMultiplier = 0;
+        OriginRotation = transform.rotation;
+    }
 
     public void Rotate()
     {
-        transform.rotation = Quaternion.Lerp(transform.rotation, DestRot, RotSpeed * Time.deltaTime);
+        LerpMultiplier += RotSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.Lerp(OriginRotation, DestRot, LerpMultiplier);
+        if (LerpMultiplier >= 1)
+        {
+            LerpMultiplier = 0;
+            OriginRotation = transform.rotation;
+        }
         //if (transform.rotation == DestRot)
         //{
         //    DestRot = Quaternion.identity;
