@@ -76,6 +76,8 @@ public class SpaceShip : MonoBehaviour
     {
         float rot = args[0].Int;
 
+        rigi.velocity = Vector3.zero;
+
         DestRot *= Quaternion.AngleAxis(rot, -transform.right);
 
         LerpMultiplier = 0;
@@ -86,6 +88,8 @@ public class SpaceShip : MonoBehaviour
     {
         float rot = args[0].Int;
 
+        rigi.velocity = Vector3.zero;
+
         DestRot *= Quaternion.AngleAxis(rot, transform.up);
 
         LerpMultiplier = 0;
@@ -95,6 +99,8 @@ public class SpaceShip : MonoBehaviour
     public void RotateOnZ(CommandTerminal.CommandArg[] args)
     {
         float rot = args[0].Int;
+
+        rigi.velocity = Vector3.zero;
 
         DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
 

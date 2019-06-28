@@ -88,7 +88,7 @@ namespace CommandTerminal
         public void SetState(TerminalState new_state) {
             input_fix = true;
             cached_command_text = command_text;
-            command_text = "";
+            command_text = " ";
 
             switch (new_state) {
                 case TerminalState.Close: {
