@@ -35,7 +35,9 @@ public class SpaceShip : MonoBehaviour
 
     private void Start()
     {
-        CommandTerminal.Terminal.Shell.AddCommand("rot", Rotate, 2, 2, "Rotate on an axis 'n' euler angles");
+        CommandTerminal.Terminal.Shell.AddCommand("rx", RotateOnX, 1, 1, "Rotate on an axis 'n' euler angles");
+        CommandTerminal.Terminal.Shell.AddCommand("ry", RotateOnY, 1, 1, "Rotate on Y axis 'n' euler angles");
+        CommandTerminal.Terminal.Shell.AddCommand("rz", RotateOnZ, 1, 1, "Rotate on Z axis 'n' euler angles");
     }
 
     private void FixedUpdate()
@@ -70,27 +72,31 @@ public class SpaceShip : MonoBehaviour
         }
     }
 
-    public void Rotate(CommandTerminal.CommandArg[] args)
+    public void RotateOnX(CommandTerminal.CommandArg[] args)
     {
-        char axis = args[0].Char;
-        float rot = args[1].Int;
-        //DestRot=Quaternion.identity;
+        float rot = args[0].Int;
 
-        switch (axis)
-        {
-            case 'X':
-            case 'x':
-                DestRot *= Quaternion.AngleAxis(rot, -transform.right);
-                break;
-            case 'Y':
-            case 'y':
-                DestRot *= Quaternion.AngleAxis(rot, transform.up);
-                break;
-            case 'Z':
-            case 'z':
-                DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
-                break;
-        }
+        DestRot *= Quaternion.AngleAxis(rot, -transform.right);
+
+        LerpMultiplier = 0;
+        OriginRotation = transform.rotation;
+    }
+
+    public void RotateOnY(CommandTerminal.CommandArg[] args)
+    {
+        float rot = args[0].Int;
+
+        DestRot *= Quaternion.AngleAxis(rot, transform.up);
+
+        LerpMultiplier = 0;
+        OriginRotation = transform.rotation;
+    }
+
+    public void RotateOnZ(CommandTerminal.CommandArg[] args)
+    {
+        float rot = args[0].Int;
+
+        DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
 
         LerpMultiplier = 0;
         OriginRotation = transform.rotation;
