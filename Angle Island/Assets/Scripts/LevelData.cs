@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelData : MonoBehaviour
 {
-    public delegate void OnLevelDataCharge();
+    public delegate void OnLevelDataCharge(LevelData levData);
     public static OnLevelDataCharge ChargeLevel;
 
     public int level;
@@ -17,7 +17,7 @@ public class LevelData : MonoBehaviour
 
     private void Start()
     {
-        ChargeLevel();
+        ChargeLevel(this);
     }
 
 }

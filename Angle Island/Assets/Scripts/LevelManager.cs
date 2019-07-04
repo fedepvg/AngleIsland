@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     int prevLevel;
     string actualLevelName;
     int actualLevelThatComesFrom;
-    LevelData actualLevelData;
+    public LevelData actualLevelData;
 
     int savedLevelThatComesFrom;
 
@@ -26,22 +26,18 @@ public class LevelManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
+            LevelData.ChargeLevel = StartNewLevel;
         }
     }
 
-    private void Start()
+    void StartNewLevel(LevelData levData)
     {
-        LevelData.ChargeLevel=StartNewLevel;
-    }
-
-    void StartNewLevel()
-    {
-        actualLevelData = GameObject.Find("LevelData").GetComponent<LevelData>();
-        actualLevel = actualLevelData.level;
-        nextLevel = actualLevelData.nextLevel;
-        prevLevel = actualLevelData.previousLevel;
-        actualLevelName = actualLevelData.name;
-        actualLevelThatComesFrom = actualLevelData.levelThatComesFrom;
+        actualLevelData = levData;
+        actualLevel = levData.level;
+        nextLevel = levData.nextLevel;
+        prevLevel = levData.previousLevel;
+        actualLevelName = levData.name;
+        actualLevelThatComesFrom = levData.levelThatComesFrom;
     }
 
     public int GetActualLevel()
@@ -56,14 +52,13 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        StartNewLevel();
+
     }
 
     public void GoToMenu()
     {
         SceneManager.LoadScene(0);
         actualLevelData.levelThatComesFrom = savedLevelThatComesFrom;
-        StartNewLevel();
         savedLevelThatComesFrom = actualLevel;
     }
 
