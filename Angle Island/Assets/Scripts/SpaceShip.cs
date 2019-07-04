@@ -12,13 +12,9 @@ public class SpaceShip : MonoBehaviour
     private float SpeedZ;
     [SerializeField]
     private float DashSpeed;
-    [SerializeField]
-    private float XRotationRate;
-    [SerializeField]
-    private float ZRotationRate;
     float InputX;
     float InputZ;
-    Transform [] positions;
+    Transform[] positions;
     [SerializeField]
     private InputField InputText;
     public Text BAckgroundText;
@@ -26,12 +22,12 @@ public class SpaceShip : MonoBehaviour
     Quaternion DestRot;
     Quaternion OriginRotation;
     float LerpMultiplier;
+    public GameObject Explosion;
+    public GameObject Camera;
 
     void Awake()
     {
         rigi = GetComponentInParent<Rigidbody>();
-        XRotationRate = 70f;
-        ZRotationRate = -70f;
         DestRot = Quaternion.identity;
     }
 
@@ -47,7 +43,7 @@ public class SpaceShip : MonoBehaviour
 
     private void FixedUpdate()
     {        
-        rigi.AddRelativeForce(new Vector3(0, 0, 10 * SpeedZ), ForceMode.Force);
+        rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
     }
 
     private void Update()
@@ -59,22 +55,6 @@ public class SpaceShip : MonoBehaviour
     {
         InputX = Input.GetAxis("Vertical");
         InputZ = Input.GetAxis("Horizontal");
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(LayerMask.LayerToName(collision.gameObject.layer)=="Floor")
-        {
-            rigi.useGravity = false;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (LayerMask.LayerToName(collision.gameObject.layer) == "Floor")
-        {
-            rigi.useGravity = true;
-        }
     }
 
     public void RotateOnX(CommandTerminal.CommandArg[] args)
@@ -136,5 +116,15 @@ public class SpaceShip : MonoBehaviour
         float speed = args[0].Int;
 
         rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        rigi.useGravity = false;
+        rigi.velocity = Vector3.zero;
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        renderer.enabled = false;
+        Explosion.SetActive(true);
+        Camera.transform.position -= transform.forward * 40;
     }
 }
