@@ -30,6 +30,12 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        MenuUI.PlayGame = GoToNextLevel;
+        MenuUI.QuitGame = QuitGame;
+    }
+
     void StartNewLevel(LevelData levData)
     {
         actualLevelData = levData;
@@ -50,11 +56,6 @@ public class LevelManager : MonoBehaviour
         return actualLevelThatComesFrom;
     }
 
-    void Update()
-    {
-
-    }
-
     public void GoToMenu()
     {
         SceneManager.LoadScene(0);
@@ -64,7 +65,7 @@ public class LevelManager : MonoBehaviour
 
     public void GoToNextLevel()
     {
-        
+        SceneManager.LoadScene(nextLevel);
     }
 
     public void QuitGame()
