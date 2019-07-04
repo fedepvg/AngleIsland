@@ -43,7 +43,8 @@ public class SpaceShip : MonoBehaviour
 
     private void FixedUpdate()
     {        
-        rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
+        if(rigi)
+            rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
     }
 
     private void Update()
@@ -120,11 +121,11 @@ public class SpaceShip : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        rigi.useGravity = false;
         rigi.velocity = Vector3.zero;
+        Destroy(rigi);
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
         Explosion.SetActive(true);
-        Camera.transform.position -= transform.forward * 40;
+        Camera.transform.position = Explosion.transform.position - Explosion.transform.forward * 5;
     }
 }
