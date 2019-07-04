@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
     {
         MenuUI.PlayGame = GoToNextLevel;
         MenuUI.QuitGame = QuitGame;
+        UIGameOver.PlayAgain = GoToNextLevel;
+        UIGameOver.QuitGame = QuitGame;
     }
 
     void StartNewLevel(LevelData levData)
