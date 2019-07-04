@@ -36,6 +36,7 @@ public class LevelManager : MonoBehaviour
         MenuUI.QuitGame = QuitGame;
         UIGameOver.PlayAgain = GoToNextLevel;
         UIGameOver.QuitGame = QuitGame;
+        SpaceShip.GameEnd = GoToGameOver;
     }
 
     void StartNewLevel(LevelData levData)
@@ -56,6 +57,12 @@ public class LevelManager : MonoBehaviour
     public int GetLevelThatComesFrom()
     {
         return actualLevelThatComesFrom;
+    }
+
+    void GoToGameOver()
+    {
+        nextLevel = 2;
+        GoToNextLevel();
     }
 
     public void GoToMenu()

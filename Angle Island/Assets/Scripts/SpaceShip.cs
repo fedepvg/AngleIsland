@@ -25,6 +25,9 @@ public class SpaceShip : MonoBehaviour
     public GameObject Explosion;
     public GameObject Camera;
 
+    public delegate void OnGameEnd();
+    public static OnGameEnd GameEnd;
+
     void Awake()
     {
         rigi = GetComponentInParent<Rigidbody>();
@@ -127,5 +130,13 @@ public class SpaceShip : MonoBehaviour
         renderer.enabled = false;
         Explosion.SetActive(true);
         Camera.transform.position = Explosion.transform.position - Explosion.transform.forward * 5;
+        StartCoroutine(WaitForGameOver());
+    }
+
+    IEnumerator WaitForGameOver()
+    {
+        yield return new WaitForSeconds(2);
+
+        GameEnd();
     }
 }
