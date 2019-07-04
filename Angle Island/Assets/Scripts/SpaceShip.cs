@@ -11,6 +11,8 @@ public class SpaceShip : MonoBehaviour
     [SerializeField]
     private float SpeedZ;
     [SerializeField]
+    private float DashSpeed;
+    [SerializeField]
     private float XRotationRate;
     [SerializeField]
     private float ZRotationRate;
@@ -38,6 +40,9 @@ public class SpaceShip : MonoBehaviour
         CommandTerminal.Terminal.Shell.AddCommand("rx", RotateOnX, 1, 1, "Rotate on an axis 'n' euler angles");
         CommandTerminal.Terminal.Shell.AddCommand("ry", RotateOnY, 1, 1, "Rotate on Y axis 'n' euler angles");
         CommandTerminal.Terminal.Shell.AddCommand("rz", RotateOnZ, 1, 1, "Rotate on Z axis 'n' euler angles");
+
+        CommandTerminal.Terminal.Shell.AddCommand("dz", DashOnZ, 1, 1, "Dash on Z axis with 'n' speed");
+        CommandTerminal.Terminal.Shell.AddCommand("dx", DashOnX, 1, 1, "Dash on X axis with 'n' speed");
     }
 
     private void FixedUpdate()
@@ -117,9 +122,19 @@ public class SpaceShip : MonoBehaviour
             LerpMultiplier = 0;
             OriginRotation = transform.rotation;
         }
-        //if (transform.rotation == DestRot)
-        //{
-        //    DestRot = Quaternion.identity;
-        //}
+    }
+
+    public void DashOnZ(CommandTerminal.CommandArg[] args)
+    {
+        float speed = args[0].Int;
+
+        rigi.AddRelativeForce(Vector3.forward * speed, ForceMode.Impulse);
+    }
+
+    public void DashOnX(CommandTerminal.CommandArg[] args)
+    {
+        float speed = args[0].Int;
+
+        rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
     }
 }
