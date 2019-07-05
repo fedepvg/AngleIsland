@@ -47,7 +47,7 @@ public class SpaceShip : MonoBehaviour
 
         CommandTerminal.Terminal.Shell.AddCommand("dz", DashOnZ, 1, 1, "Dash on Z axis with 'n' speed");
         CommandTerminal.Terminal.Shell.AddCommand("dx", DashOnX, 1, 1, "Dash on X axis with 'n' speed");
-        CommandTerminal.Terminal.Shell.AddCommand("dy", DashOnX, 1, 1, "Dash on Y axis with 'n' speed");
+        CommandTerminal.Terminal.Shell.AddCommand("dy", DashOnY, 1, 1, "Dash on Y axis with 'n' speed");
 
         CommandTerminal.Terminal.Shell.AddCommand("south", SouthCommand, 0, 0, "DO NOT USE THIS COMMAND");
     }
