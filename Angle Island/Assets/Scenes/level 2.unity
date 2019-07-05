@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6308,7 +6308,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh65756
+  m_Name: pb_Mesh44298
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -48921,7 +48921,7 @@ GameObject:
   - component: {fileID: 2125148589}
   m_Layer: 0
   m_Name: end of level
-  m_TagString: Untagged
+  m_TagString: End
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49725,7 +49725,7 @@ MonoBehaviour:
   SpeedZ: 500
   DashSpeed: 0
   InputText: {fileID: 0}
-  BAckgroundText: {fileID: 0}
+  BackgroundText: {fileID: 0}
   RotSpeed: 0.75
   Explosion: {fileID: 637248642}
   Camera: {fileID: 534669902}

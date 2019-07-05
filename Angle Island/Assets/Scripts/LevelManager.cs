@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
 
     void GoToGameOver()
     {
-        nextLevel = 2;
+        nextLevel = 3;
         GoToNextLevel();
     }
 

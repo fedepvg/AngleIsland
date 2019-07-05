@@ -186,13 +186,20 @@ public class SpaceShip : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        rigi.velocity = Vector3.zero;
-        Destroy(rigi);
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        renderer.enabled = false;
-        Explosion.SetActive(true);
-        Camera.transform.position = Explosion.transform.position - Explosion.transform.forward * 5;
-        StartCoroutine(WaitForGameOver());
+        if (collision.gameObject.tag != "End")
+        {
+            rigi.velocity = Vector3.zero;
+            Destroy(rigi);
+            MeshRenderer renderer = GetComponent<MeshRenderer>();
+            renderer.enabled = false;
+            Explosion.SetActive(true);
+            Camera.transform.position = Explosion.transform.position - Explosion.transform.forward * 5;
+            StartCoroutine(WaitForGameOver());
+        }
+        else
+        {
+            LevelManager.instance.GoToNextLevel();
+        }
     }
 
     IEnumerator WaitForGameOver()
