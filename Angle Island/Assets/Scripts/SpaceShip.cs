@@ -24,6 +24,11 @@ public class SpaceShip : MonoBehaviour
     float LerpMultiplier;
     public GameObject Explosion;
     public GameObject Camera;
+    public Mesh BondiMesh;
+    public Material BondiMaterial;
+    int BondiScaleMultiplier = 15;
+    public GameObject BondiCamera;
+    public GameObject ChoferCamera;
 
     public delegate void OnGameEnd();
     public static OnGameEnd GameEnd;
@@ -42,6 +47,8 @@ public class SpaceShip : MonoBehaviour
 
         CommandTerminal.Terminal.Shell.AddCommand("dz", DashOnZ, 1, 1, "Dash on Z axis with 'n' speed");
         CommandTerminal.Terminal.Shell.AddCommand("dx", DashOnX, 1, 1, "Dash on X axis with 'n' speed");
+
+        CommandTerminal.Terminal.Shell.AddCommand("south", SouthCommand, 0, 0, "DO NOT USE THIS COMMAND");
     }
 
     private void FixedUpdate()
@@ -120,6 +127,35 @@ public class SpaceShip : MonoBehaviour
         float speed = args[0].Int;
 
         rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
+    }
+
+    public void SouthCommand(CommandTerminal.CommandArg[] args)
+    {
+        MeshFilter mesh = GetComponent<MeshFilter>();
+        MeshCollider meshCollider = GetComponent<MeshCollider>();
+        Material mat = GetComponent<Material>();
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        
+        mesh.mesh = BondiMesh;
+        meshCollider.sharedMesh = BondiMesh;
+        mr.material = BondiMaterial;
+        transform.localScale *= BondiScaleMultiplier;
+        Camera.SetActive(false);
+        BondiCamera.SetActive(true);
+        CommandTerminal.Terminal.Shell.AddCommand("fps", FirstPersonCommand, 0, 0, "Be the driver");
+        CommandTerminal.Terminal.Shell.AddCommand("tps", ThirdPersonCommand, 0, 0, "Third person drive");
+    }
+
+    public void FirstPersonCommand(CommandTerminal.CommandArg[] args)
+    {
+        BondiCamera.SetActive(false);
+        ChoferCamera.SetActive(true);
+    }
+
+    public void ThirdPersonCommand(CommandTerminal.CommandArg[] args)
+    {
+        BondiCamera.SetActive(true);
+        ChoferCamera.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
