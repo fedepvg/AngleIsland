@@ -17,7 +17,7 @@ public class SpaceShip : MonoBehaviour
     Transform[] positions;
     [SerializeField]
     private InputField InputText;
-    public Text BAckgroundText;
+    public Text BackgroundText;
     public float RotSpeed;
     Quaternion DestRot;
     Quaternion OriginRotation;
@@ -47,6 +47,7 @@ public class SpaceShip : MonoBehaviour
 
         CommandTerminal.Terminal.Shell.AddCommand("dz", DashOnZ, 1, 1, "Dash on Z axis with 'n' speed");
         CommandTerminal.Terminal.Shell.AddCommand("dx", DashOnX, 1, 1, "Dash on X axis with 'n' speed");
+        CommandTerminal.Terminal.Shell.AddCommand("dy", DashOnX, 1, 1, "Dash on Y axis with 'n' speed");
 
         CommandTerminal.Terminal.Shell.AddCommand("south", SouthCommand, 0, 0, "DO NOT USE THIS COMMAND");
     }
@@ -127,6 +128,13 @@ public class SpaceShip : MonoBehaviour
         float speed = args[0].Int;
 
         rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
+    }
+
+    public void DashOnY(CommandTerminal.CommandArg[] args)
+    {
+        float speed = args[0].Int;
+
+        rigi.AddRelativeForce(Vector3.up * speed, ForceMode.Impulse);
     }
 
     public void SouthCommand(CommandTerminal.CommandArg[] args)
