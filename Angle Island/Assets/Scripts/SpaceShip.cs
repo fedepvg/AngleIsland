@@ -71,38 +71,47 @@ public class SpaceShip : MonoBehaviour
 
     public void RotateOnX(CommandTerminal.CommandArg[] args)
     {
-        float rot = args[0].Int;
+        if (rigi)
+        {
+            float rot = args[0].Int;
 
-        rigi.velocity = Vector3.zero;
+            rigi.velocity = Vector3.zero;
 
-        DestRot *= Quaternion.AngleAxis(rot, -transform.right);
+            DestRot *= Quaternion.AngleAxis(rot, -transform.right);
 
-        LerpMultiplier = 0;
-        OriginRotation = transform.rotation;
+            LerpMultiplier = 0;
+            OriginRotation = transform.rotation;
+        }
     }
 
     public void RotateOnY(CommandTerminal.CommandArg[] args)
     {
-        float rot = args[0].Int;
+        if (rigi)
+        {
+            float rot = args[0].Int;
 
-        rigi.velocity = Vector3.zero;
+            rigi.velocity = Vector3.zero;
 
-        DestRot *= Quaternion.AngleAxis(rot, transform.up);
+            DestRot *= Quaternion.AngleAxis(rot, transform.up);
 
-        LerpMultiplier = 0;
-        OriginRotation = transform.rotation;
+            LerpMultiplier = 0;
+            OriginRotation = transform.rotation;
+        }
     }
 
     public void RotateOnZ(CommandTerminal.CommandArg[] args)
     {
-        float rot = args[0].Int;
+        if (rigi)
+        {
+            float rot = args[0].Int;
 
-        rigi.velocity = Vector3.zero;
+            rigi.velocity = Vector3.zero;
 
-        DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
+            DestRot *= Quaternion.AngleAxis(rot, -transform.forward);
 
-        LerpMultiplier = 0;
-        OriginRotation = transform.rotation;
+            LerpMultiplier = 0;
+            OriginRotation = transform.rotation;
+        }
     }
 
     public void Rotate()
@@ -118,23 +127,32 @@ public class SpaceShip : MonoBehaviour
 
     public void DashOnZ(CommandTerminal.CommandArg[] args)
     {
-        float speed = args[0].Int;
+        if (rigi)
+        {
+            float speed = args[0].Int;
 
-        rigi.AddRelativeForce(Vector3.forward * speed, ForceMode.Impulse);
+            rigi.AddRelativeForce(Vector3.forward * speed, ForceMode.Impulse);
+        }
     }
 
     public void DashOnX(CommandTerminal.CommandArg[] args)
     {
-        float speed = args[0].Int;
+        if (rigi)
+        {
+            float speed = args[0].Int;
 
-        rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
+            rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
+        }
     }
 
     public void DashOnY(CommandTerminal.CommandArg[] args)
     {
-        float speed = args[0].Int;
+        if (rigi)
+        {
+            float speed = args[0].Int;
 
-        rigi.AddRelativeForce(Vector3.up * speed, ForceMode.Impulse);
+            rigi.AddRelativeForce(Vector3.up * speed, ForceMode.Impulse);
+        }
     }
 
     public void SouthCommand(CommandTerminal.CommandArg[] args)
