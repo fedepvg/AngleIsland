@@ -46,7 +46,11 @@ public class LevelManager : MonoBehaviour
         nextLevel = levData.nextLevel;
         prevLevel = levData.previousLevel;
         actualLevelName = levData.name;
-        actualLevelThatComesFrom = levData.levelThatComesFrom;
+        actualLevelThatComesFrom = savedLevelThatComesFrom;
+        if(actualLevel==3)
+        {
+            nextLevel = savedLevelThatComesFrom;
+        }
     }
 
     public int GetActualLevel()
@@ -68,12 +72,11 @@ public class LevelManager : MonoBehaviour
     public void GoToMenu()
     {
         SceneManager.LoadScene(0);
-        actualLevelData.levelThatComesFrom = savedLevelThatComesFrom;
-        savedLevelThatComesFrom = actualLevel;
     }
 
     public void GoToNextLevel()
     {
+        savedLevelThatComesFrom = actualLevel;
         SceneManager.LoadScene(nextLevel);
     }
 

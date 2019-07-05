@@ -58950,11 +58950,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bc3aad9498662e4fa9ce131ed1ae179, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
-  name: Level 1
-  nextLevel: 2
-  previousLevel: 0
-  levelThatComesFrom: 0
+  level: 2
+  name: Level 2
+  nextLevel: 3
+  previousLevel: 1
 --- !u!4 &1633673871
 Transform:
   m_ObjectHideFlags: 0
