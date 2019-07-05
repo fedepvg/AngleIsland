@@ -29,6 +29,8 @@ public class SpaceShip : MonoBehaviour
     int BondiScaleMultiplier = 15;
     public GameObject BondiCamera;
     public GameObject ChoferCamera;
+    int DashMaxSpeed = 1000;
+    int DashMinSpeed = -1000;
 
     public delegate void OnGameEnd();
     public static OnGameEnd GameEnd;
@@ -130,6 +132,7 @@ public class SpaceShip : MonoBehaviour
         if (rigi)
         {
             float speed = args[0].Int;
+            speed = Mathf.Clamp(speed, DashMinSpeed, DashMaxSpeed);
 
             rigi.AddRelativeForce(Vector3.forward * speed, ForceMode.Impulse);
         }
@@ -140,6 +143,7 @@ public class SpaceShip : MonoBehaviour
         if (rigi)
         {
             float speed = args[0].Int;
+            speed = Mathf.Clamp(speed, DashMinSpeed, DashMaxSpeed);
 
             rigi.AddRelativeForce(Vector3.right * speed, ForceMode.Impulse);
         }
@@ -150,6 +154,7 @@ public class SpaceShip : MonoBehaviour
         if (rigi)
         {
             float speed = args[0].Int;
+            speed = Mathf.Clamp(speed, DashMinSpeed, DashMaxSpeed);
 
             rigi.AddRelativeForce(Vector3.up * speed, ForceMode.Impulse);
         }
