@@ -34,6 +34,8 @@ public class LevelManager : MonoBehaviour
     {
         MenuUI.PlayGame = GoToNextLevel;
         MenuUI.QuitGame = QuitGame;
+        UIInGame.ReturnToMenu = GoToMenu;
+        UIInGame.QuitGame = QuitGame;
         UIGameOver.PlayAgain = GoToNextLevel;
         UIGameOver.QuitGame = QuitGame;
         SpaceShip.GameEnd = GoToGameOver;
@@ -71,7 +73,8 @@ public class LevelManager : MonoBehaviour
 
     public void GoToMenu()
     {
-        SceneManager.LoadScene(0);
+        nextLevel = 0;
+        GoToNextLevel();
     }
 
     public void GoToNextLevel()
