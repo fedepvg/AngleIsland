@@ -32,6 +32,14 @@ public class SpaceShip : MonoBehaviour
     int DashMaxSpeed = 1000;
     int DashMinSpeed = -1000;
 
+    bool ManualControl = false;
+    bool UltraDashing = false;
+    int UltraDashSpeed = 300;
+    public float UltraRotSpeed;
+    float UltraRotX = 100;
+    float UltraRotY = 100;
+    float UltraRotZ = 100;
+
     public delegate void OnGameEnd();
     public static OnGameEnd GameEnd;
 
@@ -50,19 +58,62 @@ public class SpaceShip : MonoBehaviour
         CommandTerminal.Terminal.Shell.AddCommand("dz", DashOnZ, 1, 1, "Dash on Z axis with 'n' speed");
         CommandTerminal.Terminal.Shell.AddCommand("dx", DashOnX, 1, 1, "Dash on X axis with 'n' speed");
         CommandTerminal.Terminal.Shell.AddCommand("dy", DashOnY, 1, 1, "Dash on Y axis with 'n' speed");
-
+        
         CommandTerminal.Terminal.Shell.AddCommand("south", SouthCommand, 0, 0, "DO NOT USE THIS COMMAND");
+
+        if (SceneManager.GetActiveScene().name == "level3")
+        {
+            CommandTerminal.Terminal.Shell.AddCommand("ultra", ManualControlCommand, 0, 0, "Activate domination of advanced aerodynamics, " +
+                "turning yourself into the ULTRA-PILOT");
+        }
     }
 
     private void FixedUpdate()
     {        
         if(rigi)
             rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
+
+        if(ManualControl)
+        {
+            if (UltraDashing)
+            {
+                if (rigi)
+                    rigi.AddForce(transform.forward * UltraDashSpeed, ForceMode.Acceleration);
+            }
+            transform.Rotate(new Vector3(UltraRotX * UltraRotSpeed, UltraRotY * UltraRotSpeed, UltraRotZ * UltraRotSpeed));
+        }
     }
 
     private void Update()
     {
-        Rotate();
+        if (ManualControl)
+        {
+            if (!UltraDashing)
+            {
+                UltraRotX = -Input.GetAxisRaw("Mouse Y");
+                UltraRotY = Input.GetAxisRaw("Horizontal");
+                UltraRotZ = -Input.GetAxis("Mouse X");
+            }
+            else
+            {
+                UltraRotX = 0.0f;
+                UltraRotY = 0.0f;
+                UltraRotZ = 0.0f;
+            }
+
+            if (Input.GetMouseButton(1))
+            {
+                UltraDashing = true;
+            }
+            else
+            {
+                UltraDashing = false;
+            }
+        }
+        else
+        {
+            Rotate();
+        }
     }
 
     void GetInput(ref float InputX,ref float InputZ)
@@ -187,6 +238,11 @@ public class SpaceShip : MonoBehaviour
     {
         BondiCamera.SetActive(true);
         ChoferCamera.SetActive(false);
+    }
+
+    public void ManualControlCommand(CommandTerminal.CommandArg[] args)
+    {
+        ManualControl = !ManualControl;
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -49979,6 +49979,7 @@ MonoBehaviour:
   BondiMaterial: {fileID: 2100000, guid: 1c4bb36d58b21a647a9297843f91b283, type: 3}
   BondiCamera: {fileID: 1642886523}
   ChoferCamera: {fileID: 1561031937}
+  UltraRotSpeed: 1.5
 --- !u!64 &6904285539296823694
 MeshCollider:
   m_ObjectHideFlags: 0

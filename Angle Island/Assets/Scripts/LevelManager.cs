@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
         prevLevel = levData.previousLevel;
         actualLevelName = levData.name;
         actualLevelThatComesFrom = savedLevelThatComesFrom;
-        if(actualLevel==3)
+        if(actualLevel == 4)
         {
             nextLevel = savedLevelThatComesFrom;
         }
@@ -67,7 +67,7 @@ public class LevelManager : MonoBehaviour
 
     void GoToGameOver()
     {
-        nextLevel = 3;
+        nextLevel = 4;
         GoToNextLevel();
     }
 
