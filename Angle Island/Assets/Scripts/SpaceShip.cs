@@ -10,6 +10,7 @@ public class SpaceShip : MonoBehaviour
     private Rigidbody rigi;
     [SerializeField]
     private float SpeedZ;
+    public float UltraSpeedZ;
     [SerializeField]
     private float DashSpeed;
     float InputX;
@@ -34,7 +35,7 @@ public class SpaceShip : MonoBehaviour
 
     bool ManualControl = false;
     bool UltraDashing = false;
-    int UltraDashSpeed = 300;
+    public int UltraDashSpeed;
     public float UltraRotSpeed;
     float UltraRotX = 100;
     float UltraRotY = 100;
@@ -69,18 +70,23 @@ public class SpaceShip : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {        
-        if(rigi)
-            rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
-
+    {   
         if(ManualControl)
         {
+            if (rigi)
+                rigi.AddRelativeForce(Vector3.forward * UltraSpeedZ, ForceMode.Force);
+
             if (UltraDashing)
             {
                 if (rigi)
                     rigi.AddForce(transform.forward * UltraDashSpeed, ForceMode.Acceleration);
             }
             transform.Rotate(new Vector3(UltraRotX * UltraRotSpeed, UltraRotY * UltraRotSpeed, UltraRotZ * UltraRotSpeed));
+        }
+        else
+        {
+            if (rigi)
+                rigi.AddRelativeForce(Vector3.forward * SpeedZ, ForceMode.Force);
         }
     }
 
@@ -91,8 +97,8 @@ public class SpaceShip : MonoBehaviour
             if (!UltraDashing)
             {
                 UltraRotX = -Input.GetAxisRaw("Mouse Y");
-                UltraRotY = Input.GetAxisRaw("Horizontal");
-                UltraRotZ = -Input.GetAxis("Mouse X");
+                UltraRotY = Input.GetAxisRaw("Mouse X");
+                UltraRotZ = -Input.GetAxis("Horizontal");
             }
             else
             {
@@ -243,6 +249,14 @@ public class SpaceShip : MonoBehaviour
     public void ManualControlCommand(CommandTerminal.CommandArg[] args)
     {
         ManualControl = !ManualControl;
+        DestRot = transform.rotation;
+        OriginRotation = transform.rotation;
+
+        Cursor.visible = !Cursor.visible;
+        if (Cursor.lockState == CursorLockMode.Locked)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -256,9 +270,15 @@ public class SpaceShip : MonoBehaviour
             Explosion.SetActive(true);
             Camera.transform.position = Explosion.transform.position - Explosion.transform.forward * 5;
             StartCoroutine(WaitForGameOver());
+
+            Cursor.visible = !Cursor.visible;
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
+            Cursor.visible = !Cursor.visible;
+            Cursor.lockState = CursorLockMode.None;
+
             LevelManager.instance.GoToNextLevel();
         }
     }

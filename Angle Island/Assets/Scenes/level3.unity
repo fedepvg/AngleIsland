@@ -75568,6 +75568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedZ: 500
+  UltraSpeedZ: 1000
   DashSpeed: 0
   InputText: {fileID: 0}
   BackgroundText: {fileID: 0}
@@ -75578,6 +75579,7 @@ MonoBehaviour:
   BondiMaterial: {fileID: 2100000, guid: 1c4bb36d58b21a647a9297843f91b283, type: 3}
   BondiCamera: {fileID: 1642886523}
   ChoferCamera: {fileID: 1561031937}
+  UltraDashSpeed: 500
   UltraRotSpeed: 1.5
 --- !u!64 &6904285539296823694
 MeshCollider:
